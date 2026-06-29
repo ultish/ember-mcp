@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
-    "node-fetch": "^3.3.2",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
