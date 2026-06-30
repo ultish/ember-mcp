@@ -103,6 +103,47 @@ Add this to your MCP servers configuration:
 
 </details>
 
+<details><summary>air-gapped environment</summary>
+
+Each GitHub release includes an `ember-mcp-data.tar.gz` asset containing a bundled snapshot of all Ember documentation so the server runs with no internet access.
+
+1. Download the release source and the `ember-mcp-data.tar.gz` asset from the [releases page](../../releases)
+
+2. Extract the data bundle next to the source:
+```bash
+tar -xzf ember-mcp-data.tar.gz
+```
+
+3. Install dependencies and start:
+```bash
+npm install
+node index.js
+```
+
+4. Configure your MCP client to point at the local install:
+```json
+{
+  "servers": {
+    "ember-docs": {
+      "command": "node",
+      "args": ["/absolute/path/to/ember-mcp/index.js"]
+    }
+  }
+}
+```
+
+**Updating the bundled docs**
+
+On an internet-connected machine, run:
+```bash
+./scripts/fetch-data.sh
+./scripts/release.sh v1.2.3
+```
+
+Then download the new release in your air-gapped environment and repeat the steps above.
+
+</details>
+
 Then, restart your editor or its extension host
 
 > [!NOTE]
@@ -331,10 +372,9 @@ The documentation service:
 
 ### Documentation not loading
 
-The server fetches documentation on first use. Check:
-1. Internet connection is available
-2. The documentation URL is accessible
-3. Server logs for error messages
+The server reads bundled documentation from the `data/` directory on startup. Check:
+1. `data/llms-full.txt` exists (run `./scripts/fetch-data.sh` to populate it)
+2. Server logs for error messages
 
 ### Search returning no results
 
